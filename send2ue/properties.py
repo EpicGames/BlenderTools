@@ -138,7 +138,7 @@ def get_scene_property_class():
                     PathModes.SEND_TO_PROJECT.value,
                     'Send to Project',
                     (
-                        'Sends the intermediate files to a temporary location on disk and then imports them into'
+                        'Sends the intermediate files to a temporary location on disk and then imports them into '
                         'the Unreal Project. This does not require any extra configuration, but might not be ideal if '
                         'your intermediate files need to be under source control.'
                     ),
