@@ -1,0 +1,25 @@
+schema_version = "1.0.0"
+blender_version_min = "5.1.0"
+
+id = "send2ue"
+name = "Send to Unreal"
+version = "2.4.3"
+tagline = "Sends an asset to the first open Unreal Editor instance on your machine"
+maintainer = "Epic Games Inc."
+type = "add-on"
+
+tags = ["Pipeline", "Import-Export"]
+
+license = [
+  "SPDX:MIT",
+]
+
+[permissions]
+files = "Exports mesh/animation files (FBX) to disk for the Unreal import pipeline"
+network = "Talks to a locally running Unreal Editor instance via RPC (XML-RPC over loopback/multicast)"
+
+[build]
+paths_exclude_pattern = [
+  "release_notes.md",
+  "__pycache__/",
+]

@@ -209,11 +209,21 @@ def get_extra_property_group_data_as_dictionary(property_group, only_key=None):
     return merge_groups(property_group_data, settings_group_data, only_key=only_key)
 
 
+# AddonPreferences instances no longer support ID-property dict storage
+# (`self.get(key, default)` / `self[key] = value`) in this Blender version --
+# raises "TypeError: this type doesn't support IDProperties". Since this property
+# has fully custom get/set (Blender never touches its own backing storage for it),
+# a plain module-level cache is the simplest correct replacement. Trade-off: the
+# value no longer persists across Blender restarts the way a real ID property
+# would; it resets to the default (60) each session.
+_rpc_response_timeout_cache = {'value': 60}
+
+
 def get_rpc_response_timeout(self):
     """
     Overrides getter method for the rpc_response_timeout property.
     """
-    return self.get('rpc_response_timeout', 60)
+    return _rpc_response_timeout_cache['value']
 
 
 def set_property_group_with_dictionary(property_group, data):
@@ -252,7 +262,7 @@ def set_rpc_response_timeout(self, value):
     if unreal.is_connected():
         unreal.set_rpc_env('RPC_TIME_OUT', value)
     os.environ['RPC_TIME_OUT'] = str(value)
-    self['rpc_response_timeout'] = value
+    _rpc_response_timeout_cache['value'] = value
 
 
 def set_active_template(self=None, context=None):

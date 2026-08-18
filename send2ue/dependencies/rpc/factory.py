@@ -153,9 +153,35 @@ class RPCFactory:
         code.insert(1, import_code)
 
         # remove the doc string
+        # Note: previously this matched `doc_string` (from __doc__, via exec()) as an exact substring
+        # of the joined source text and replaced it. Under Python 3.13 this silently stops matching for
+        # multi-line docstrings containing a blank line (textwrap.dedent's blank-line normalization can
+        # diverge slightly from what __doc__ reports), leaving the docstring's inner text behind as bare,
+        # invalid statements -- which then produces confusing downstream SyntaxErrors (a bare line like
+        # "Checks to see if a directory exist in unreal." can get misparsed as a broken ternary). Detect
+        # and strip the docstring by its triple-quote delimiters instead of exact text matching, so it's
+        # robust regardless of whitespace/blank-line normalization.
         if doc_string:
-            code = '\n'.join(code).replace(doc_string, '')
-            code = [line for line in code.split('\n') if not all([char == '"' or char == "'" for char in line.strip()])]
+            cleaned = []
+            in_docstring = False
+            docstring_done = False
+            for line in code:
+                stripped = line.strip()
+                if not docstring_done and not in_docstring and stripped.startswith(('"""', "'''")):
+                    quote = stripped[:3]
+                    # single-line docstring: opening and closing triple-quote on the same line
+                    if len(stripped) > 3 and stripped.endswith(quote):
+                        docstring_done = True
+                        continue
+                    in_docstring = True
+                    continue
+                if in_docstring:
+                    if stripped.endswith(('"""', "'''")):
+                        in_docstring = False
+                        docstring_done = True
+                    continue
+                cleaned.append(line)
+            code = cleaned
 
         return code
 

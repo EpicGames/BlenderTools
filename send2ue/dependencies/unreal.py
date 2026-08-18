@@ -188,7 +188,12 @@ def bootstrap_unreal_with_rpc_server():
     if not os.environ.get('TEST_ENVIRONMENT'):
         if not is_connected():
             import bpy
-            rpc_response_timeout = bpy.context.preferences.addons["send2ue"].preferences.rpc_response_timeout
+            # Under Blender's Extensions system this addon is registered as
+            # "bl_ext.user_default.send2ue", not the bare "send2ue" this used to hardcode --
+            # derive the actual root package name so it works under both the legacy
+            # scripts/addons/ loader and the Extensions system.
+            addon_key = __package__.rsplit('.', 1)[0]
+            rpc_response_timeout = bpy.context.preferences.addons[addon_key].preferences.rpc_response_timeout
             dependencies_path = os.path.dirname(__file__)
             result = run_commands(
                 [

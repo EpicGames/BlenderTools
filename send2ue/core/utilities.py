@@ -1102,7 +1102,9 @@ def setup_project(*args):
     bpy.ops.send2ue.reload_extensions()
 
     # create the scene collections
-    addon = bpy.context.preferences.addons.get(ToolInfo.NAME.value)
+    # (real preferences.addons registration key, not the internal ToolInfo.NAME namespace --
+    # see the note in ui/addon_preferences.py)
+    addon = bpy.context.preferences.addons.get(__package__.rsplit('.', 1)[0])
     if addon and addon.preferences.automatically_create_collections:
         create_collections()
 
