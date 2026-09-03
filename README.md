@@ -12,7 +12,7 @@ A repository of blender addons that improve the game development workflow betwee
 
 A one-click solution for sending assets from Blender to Unreal Engine.
 
-* [Read Docs](https://epicgamesext.github.io/BlenderTools/send2ue/)
+* [Read Docs](https://epicgames.github.io/BlenderTools/send2ue/)
 * [Download Addon](https://github.com/EpicGamesExt/BlenderTools/releases?q=Send+to+Unreal&expanded=true)
 
 
@@ -24,16 +24,16 @@ A node based retargeting system for Blender's
 [Rigify](https://docs.blender.org/manual/en/latest/addons/rigging/rigify/index.html) addon. Quickly retarget and author
 new animation on unreal marketplace assets and more!
 
-* [Read Docs](https://epicgamesext.github.io/BlenderTools/ue2rigify/)
+* [Read Docs](https://epicgames.github.io/BlenderTools/ue2rigify/)
 * [Download Addon](https://github.com/EpicGamesExt/BlenderTools/releases?q=UE+to+Rigify&expanded=true)
 
 
 ## Help Contribute
 Contributions are encouraged! Find out how you can contribute to this repo in one of the following ways:
 
-* [Help Develop](https://epicgamesext.github.io/BlenderTools/contributing/development.html)
-* [Help Document](https://epicgamesext.github.io/BlenderTools/contributing/documentation.html)
-* [Help Test](https://epicgamesext.github.io/BlenderTools/contributing/testing.html)
+* [Help Develop](https://epicgames.github.io/BlenderTools/contributing/development.html)
+* [Help Document](https://epicgames.github.io/BlenderTools/contributing/documentation.html)
+* [Help Test](https://epicgames.github.io/BlenderTools/contributing/testing.html)
 
 
 ## Get Notified on a New Release
