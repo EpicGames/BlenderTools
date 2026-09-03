@@ -317,7 +317,12 @@ def get_scene_property_class():
         )
         lod_regex: bpy.props.StringProperty(
             name="LOD Regex",
-            default=r"(?i)(_LOD\d).*",
+            # Scoped inline flag (?i:...) rather than global (?i) -- every call site embeds this
+            # value inside a larger pattern (wrapped in an extra capturing group at minimum, string-
+            # concatenated at most), and Python 3.11+ rejects a global inline flag anywhere but
+            # position 0 of the whole pattern ("global flags not at the start of the expression").
+            # The scoped form is valid at any position and behaves identically here.
+            default=r"(?i:(_LOD\d).*)",
             description=(
                 "Set a regular expression to determine an asset's lod identifier. The remaining unmatched string will "
                 "be used as the asset name. The first matched group's last character should be the LOD index."

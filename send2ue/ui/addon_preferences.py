@@ -9,7 +9,12 @@ class SendToUnrealPreferences(Send2UeAddonProperties, bpy.types.AddonPreferences
     """
     This class creates the settings interface in the send to unreal addon.
     """
-    bl_idname = ToolInfo.NAME.value
+    # Blender requires AddonPreferences.bl_idname to exactly match the addon's actual
+    # registered module key for `preferences.addons[key].preferences` to resolve correctly.
+    # Under the Extensions system that's "bl_ext.user_default.send2ue", not the bare
+    # ToolInfo.NAME.value ("send2ue") this used to hardcode -- derive it dynamically so
+    # this works under both the legacy scripts/addons/ loader and the Extensions system.
+    bl_idname = __package__.rsplit('.', 1)[0]
 
     def draw(self, context):
         """

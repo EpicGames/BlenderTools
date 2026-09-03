@@ -1,5 +1,15 @@
 # Copyright Epic Games, Inc. All Rights Reserved.
 
+import sys as _sys
+# Under Blender's Extensions system this package is actually importable as
+# "bl_ext.user_default.send2ue", not bare "send2ue". Several files under
+# resources/extensions/ (and possibly other dynamically-loaded extension
+# plugins) use absolute imports like `from send2ue.core import utilities`,
+# which only resolved under the legacy scripts/addons/ loader where the
+# addon folder sat directly on sys.path. Alias the bare name to this already-
+# loaded module so those absolute imports keep working unmodified.
+_sys.modules.setdefault('send2ue', _sys.modules[__name__])
+
 import bpy
 import os
 import importlib

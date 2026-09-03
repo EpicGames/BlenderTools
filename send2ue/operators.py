@@ -17,7 +17,8 @@ class Send2Ue(bpy.types.Operator):
     bl_idname = "wm.send2ue"
     bl_label = "Push Assets"
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.timer = None
         self.escape = False
         self.done = False
@@ -251,7 +252,10 @@ class ReloadExtensions(bpy.types.Operator):
     bl_label = "Reload Extensions"
 
     def execute(self, context):
-        addon = bpy.context.preferences.addons.get(ToolInfo.NAME.value)
+        # ToolInfo.NAME.value ("send2ue") is the internal operator/property namespace, not
+        # necessarily the addon's real preferences.addons registration key (which is
+        # "bl_ext.user_default.send2ue" under the Extensions system) -- use __package__.
+        addon = bpy.context.preferences.addons.get(__package__)
         if addon:
             extensions_repo_path = addon.preferences.extensions_repo_path
             if extensions_repo_path:

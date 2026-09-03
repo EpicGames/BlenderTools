@@ -338,7 +338,9 @@ class ExtensionFactory:
         extensions = []
 
         # add in the additional extensions from the addons preferences
-        addon = bpy.context.preferences.addons.get(ToolInfo.NAME.value)
+        # (real preferences.addons registration key, not the internal ToolInfo.NAME namespace --
+        # see the note in ui/addon_preferences.py)
+        addon = bpy.context.preferences.addons.get(__package__.rsplit('.', 1)[0])
         if addon and addon.preferences:
             if os.path.exists(addon.preferences.extensions_repo_path):
                 for file_name in os.listdir(addon.preferences.extensions_repo_path):
